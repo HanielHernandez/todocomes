@@ -22,6 +22,6 @@ export async function createCategory( payload: CreateCategoryDto ) {
     redirect('/admin/error')
   }
 
-  revalidatePath('/admin', 'layout')
-  redirect('/admin')
+  revalidatePath('/admin/categories', 'layout')
+  redirect('/admin/categories')
 }

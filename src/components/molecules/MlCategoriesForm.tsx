@@ -15,7 +15,7 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
 import { uploadFile } from "@/utils/supabase/storage";
-import { createCategory } from "@/app/admin/actions";
+import { Category, CreateCategoryDto } from "@/types/restaurant";
 
 const formSchema = z.object({
   name: z.string().min(3, "Name is required"),
@@ -23,16 +23,14 @@ const formSchema = z.object({
   imageUrl: z.any(),
 });
 
-export type CategoryFormValues = {
-  name: string;
-  description: string;
-  imageUrl: File; // Changed to File to handle file uploads
+
+export type CreateCategoryAction = (values: CreateCategoryDto) => Promise<void>;
+
+export type MlCategoriesFormProps = {
+  action: CreateCategoryAction
 };
 
-
-
-
-export function MlCategoriesForm() {
+export function MlCategoriesForm({ action }: MlCategoriesFormProps) {
   const [loading, setLoading] = useState(false);
   const [categoryImage, setCategoryImage] = useState<File | null>(null);
 
@@ -52,18 +50,16 @@ export function MlCategoriesForm() {
     setLoading(true);
     try {
       if (categoryImage) {
-
         const imageUrl = await uploadFile(categoryImage, "categories");
 
         if (!imageUrl) {
           throw new Error("Failed to upload image");
         }
 
-
-        await createCategory({
+        await action({
           ...values,
           imageUrl,
-        });
+        } as Category);
       }
       setLoading(false);
     } catch (error) {
@@ -91,7 +87,6 @@ export function MlCategoriesForm() {
               <FormControl>
                 <Input placeholder="Name of the category" {...field} />
               </FormControl>
-
               <FormMessage />
             </FormItem>
           )}

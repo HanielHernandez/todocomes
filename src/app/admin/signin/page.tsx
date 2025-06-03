@@ -5,6 +5,7 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -24,6 +25,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useState } from "react";
 import { signin } from "./actions";
+import Link from "next/link";
 
 const formSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -104,16 +106,24 @@ export default function SignInPage() {
                 name="password"
               ></FormField>
 
-              <Button type="submit" className="w-full"> Sign In  
-
+              <Button type="submit" className="w-full">
+                {" "}
+                Sign In
                 {loading && (
                   <span className="ml-2 animate-spin h-6 w-6 rounded-full border border-4  border-t-white   border-neutral-500 "></span>
                 )}
-
               </Button>
             </form>
           </Form>
         </CardContent>
+        <CardFooter>
+          <p className="text-sm text-muted-foreground">
+            Dont have an account? create one <Link
+              href="/admin/signup"
+              className="text-blue-500 hover:underline"
+            >here</Link>
+          </p>
+        </CardFooter>
       </Card>
     </div>
   );

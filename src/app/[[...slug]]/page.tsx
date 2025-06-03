@@ -26,6 +26,7 @@ export default async function Page({
 
   return (
     <div>
+      {page.title && <h1 className="text-3xl font-bold">{page.title}</h1>}
       {page.blocks &&
         page.blocks.map((block) => {
           const BlockComponent = ComponentTypes[block.CONTENT_TYPE];

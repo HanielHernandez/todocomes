@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 import { MlRestaurants } from "@/components/molecules/MlRestaurants";
 import { MlCategoriesForm } from "@/components/molecules/MlCategoriesForm";
+import { createCategory } from "./actions";
 
 export default async function AdminPage() {
   const supabase = await createClient();
@@ -16,7 +17,7 @@ export default async function AdminPage() {
     <div className="flex flex-col space-y-4">
       <h1>Admin</h1>
       <div className="max-w-72xl">
-        <MlCategoriesForm />
+        <MlCategoriesForm  action={createCategory}/>
       </div>
 
       <MlRestaurants />
